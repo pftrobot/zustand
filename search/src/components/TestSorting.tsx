@@ -1,7 +1,8 @@
-import React from "react"
+import React, { useCallback } from "react"
 import { Button, Checkbox, Dropdown, MenuProps } from "antd/lib"
 import styled from "styled-components"
 import { defaultParams, filterType } from "../modules/searchType.module"
+import { useSearchStore } from "@/modules/searchStore.module"
 
 export interface TestSortingProps {
     onClickParsing: (value: boolean) => void

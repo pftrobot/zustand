@@ -1,3 +1,4 @@
+import { create } from "zustand"
 import {
     CategoryType,
     defaultParams,
@@ -6,7 +7,7 @@ import {
     selectedFilterType,
 } from "./searchType.module"
 
-export type TestProductStatus = {
+interface TestProductStatus {
     items: any[]
     query: defaultParams
     filters: filterGroupListType[]
@@ -21,9 +22,32 @@ export type TestProductStatus = {
     updateSelectedFilters: (filters: selectedFilterType[]) => void
     updateBaseLicenses: (licenses: filterType[]) => void
     updateQuery: (query: defaultParams) => void
-    updateCategory: (value: string) => void
+    updateCategory: (value: CategoryType) => void
     updateKeyword: (value: string) => void
     updatePrevKeyword: (value: string) => void
     updatePrevBaseLicense: (value: number) => void
     updateLoadingTemp: (value: string) => void
 }
+
+export const useSearchStore = create<TestProductStatus>((set) => ({
+    items: [],
+    query: {},
+    filters: [],
+    selectedFilters: [],
+    baseLicenses: [],
+    category: "all",
+    keyword: "",
+    prevKeyword: "",
+    prevBaseLicense: -1,
+    loadingTemp: "loaded",
+    updateFilters: (newFilters) => set({ filters: newFilters }),
+    updateBaseLicenses: (newLicenses) => set({ baseLicenses: newLicenses }),
+    updatePrevBaseLicense: (value) => set({ prevBaseLicense: value }),
+    updateSelectedFilters: (newSelectedFilters) =>
+        set({ selectedFilters: newSelectedFilters }),
+    updateQuery: (newQuery) => set({ query: newQuery }),
+    updateKeyword: (newKeyword) => set({ keyword: newKeyword }),
+    updatePrevKeyword: (value) => set({ prevKeyword: value }),
+    updateCategory: (newCategory) => set({ category: newCategory }),
+    updateLoadingTemp: (newLoadingTemp) => set({ loadingTemp: newLoadingTemp }),
+}))

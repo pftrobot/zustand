@@ -8,6 +8,7 @@ import { TestFilter } from "@/components/TestFilter"
 import { TestCurrentFilter } from "@/components/TestCurrentFilter"
 import { selectedFilterType } from "@/modules/searchType.module"
 import { TestSorting } from "@/components/TestSorting"
+import { useSearchStore } from "@/modules/searchStore.module"
 
 export type CategoryType = "all" | "handout" | "workbook" | "textbook"
 
@@ -50,28 +51,32 @@ const defaultParamValue = {
 const TestProductShowNextPage: NextPage<{}> = ({}) => {
     const router = useRouter()
     const { query } = router
+    const loadingTemp = useSearchStore((state) => state.loadingTemp)
+    const updateLoadingTemp = useSearchStore((state) => state.updateLoadingTemp)
+
+    console.log("::: store ", loadingTemp)
 
     // const store = useLocalObservable<TestProductStatus>(() => ({
-    //     query: {},
-    //     filters: [],
-    //     category: undefined,
-    //     keyword: "",
-    //     loadingTemp: "",
-    //     updateFilters: (newFilters: filterType[]) => {
-    //         store.filters = newFilters
-    //     },
-    //     updateQuery: (query: defaultParams) => {
-    //         store.query = { ...query }
-    //     },
-    //     updateKeyword: (value: string) => {
-    //         store.keyword = value
-    //     },
-    //     updateCategory: (value: CategoryType) => {
-    //         store.category = value
-    //     },
-    //     updateLoadingTemp: (value: string) => {
-    //         store.loadingTemp = value
-    //     },
+    // query: {},
+    // filters: [],
+    // category: undefined,
+    // keyword: "",
+    // loadingTemp: "",
+    // updateFilters: (newFilters: filterType[]) => {
+    //     store.filters = newFilters
+    // },
+    // updateQuery: (query: defaultParams) => {
+    //     store.query = { ...query }
+    // },
+    // updateKeyword: (value: string) => {
+    //     store.keyword = value
+    // },
+    // updateCategory: (value: CategoryType) => {
+    //     store.category = value
+    // },
+    // updateLoadingTemp: (value: string) => {
+    //     store.loadingTemp = value
+    // },
     // }))
 
     // 상태값 업데이트
@@ -253,6 +258,14 @@ const TestProductShowNextPage: NextPage<{}> = ({}) => {
                 />
                 <Button onClick={handleSearchClick}>검색</Button>
             </SearchBox>
+            <Button
+                onClick={() => {
+                    updateLoadingTemp("haha")
+                    console.log("::: store ", loadingTemp)
+                }}
+            >
+                테스트
+            </Button>
             <ProdListPage>
                 <TestFilter
                     onClickCategory={handleCategory}
