@@ -36,6 +36,8 @@ export const TestCurrentFilter: React.FC<TestCurrentFilterProps> = ({
                     // let filterName = ''
                     let filterTitle = ""
 
+                    if (!currentFilters) return
+
                     switch (key) {
                         case "license":
                             // filterName = '라이선스'
