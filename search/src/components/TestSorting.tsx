@@ -1,13 +1,17 @@
 import React, { useCallback } from "react"
 import { Button, Checkbox, Dropdown, MenuProps } from "antd/lib"
 import styled from "styled-components"
-import { defaultParams, filterType } from "../modules/searchType.module"
-import { useSearchStore } from "@/modules/searchStore.module"
+import {
+    CategoryType,
+    defaultParams,
+    filterType,
+} from "../modules/searchType.module"
+import { useSearchStore, useSortingStore } from "@/modules/searchStore.module"
 
 export interface TestSortingProps {
     onClickParsing: (value: boolean) => void
     onClickSort: (value: string) => void
-    onClickSelect: (value: string) => void
+    onClickSelect: (value: CategoryType) => void
     onClickFilter: (value: number, checked: boolean) => void
     filters: filterType[]
     query?: defaultParams
@@ -28,25 +32,16 @@ export const TestSorting: React.FC<TestSortingProps> = ({
     filters,
     query,
 }) => {
-    // const store = useLocalObservable<TestSortingStore>(() => ({
-    //     dropdownOpen: false,
-    //     dropdownText: "all",
-    //     updateDropdownOpen(open) {
-    //         this.dropdownOpen = open
-    //     },
-    //     updateDropdownText(text) {
-    //         this.dropdownText = text
-    //     },
-    // }))
+    const store = useSortingStore((state) => state)
 
     const handleMenuClick: MenuProps["onClick"] = (e) => {
-        // if (e.key === "0") {
-        //     store.updateDropdownOpen(false)
-        // }
+        if (e.key === "0") {
+            store.updateDropdownOpen(false)
+        }
     }
 
     const handleOpenChange = (flag: boolean) => {
-        // store.updateDropdownOpen(flag)
+        store.updateDropdownOpen(flag)
     }
 
     const selectItems: MenuProps["items"] = [
@@ -54,11 +49,11 @@ export const TestSorting: React.FC<TestSortingProps> = ({
             label: (
                 <Button
                     onClick={() => {
-                        // store.updateDropdownText("all")
-                        // onClickSelect("all")
+                        store.updateDropdownText("all")
+                        onClickSelect("all")
                     }}
                 >
-                    {/* {store.dropdownText} */}
+                    {store.dropdownText}
                 </Button>
             ),
             key: "all",
@@ -147,23 +142,6 @@ export const TestSorting: React.FC<TestSortingProps> = ({
                     >
                         <a onClick={(e) => e.preventDefault()}>
                             {query?.category ? query.category : "all"}
-                        </a>
-                    </Dropdown>
-                </DropBox>
-                <DropBox>
-                    <Dropdown
-                        menu={{
-                            items: dropItems,
-                            onClick: handleMenuClick,
-                        }}
-                        trigger={["click"]}
-                        onOpenChange={handleOpenChange}
-                        open={false}
-                        // open={store.dropdownOpen}
-                        overlayClassName={"filter-select filter"}
-                    >
-                        <a onClick={(e) => e.preventDefault()}>
-                            안 닫히는 드롭다운
                         </a>
                     </Dropdown>
                 </DropBox>

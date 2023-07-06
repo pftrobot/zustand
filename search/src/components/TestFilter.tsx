@@ -1,10 +1,14 @@
 import React from "react"
 import { Button, Checkbox } from "antd/lib"
 import styled from "styled-components"
-import { defaultParams, filterType } from "@/modules/searchType.module"
+import {
+    CategoryType,
+    defaultParams,
+    filterType,
+} from "@/modules/searchType.module"
 
 export interface TestFilterProps {
-    onClickCategory: (category: string) => void
+    onClickCategory: (category: CategoryType) => void
     onClickFilter: (value: number, checked: boolean) => void
     filters: filterType[]
     query: defaultParams
