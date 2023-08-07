@@ -6,7 +6,7 @@ import {
     defaultParams,
     filterType,
 } from "../modules/searchType.module"
-import { useSearchStore, useSortingStore } from "@/modules/searchStore.module"
+import { useSortingStore } from "@/modules/searchStore.module"
 
 export interface TestSortingProps {
     onClickParsing: (value: boolean) => void
@@ -33,15 +33,21 @@ export const TestSorting: React.FC<TestSortingProps> = ({
     query,
 }) => {
     const store = useSortingStore((state) => state)
+    const updateDropdownOpen = useSortingStore(
+        (state) => state.actions.updateDropdownOpen
+    )
+    const updateDropdownText = useSortingStore(
+        (state) => state.actions.updateDropdownText
+    )
 
     const handleMenuClick: MenuProps["onClick"] = (e) => {
         if (e.key === "0") {
-            store.updateDropdownOpen(false)
+            updateDropdownOpen(false)
         }
     }
 
     const handleOpenChange = (flag: boolean) => {
-        store.updateDropdownOpen(flag)
+        updateDropdownOpen(flag)
     }
 
     const selectItems: MenuProps["items"] = [
@@ -49,7 +55,7 @@ export const TestSorting: React.FC<TestSortingProps> = ({
             label: (
                 <Button
                     onClick={() => {
-                        store.updateDropdownText("all")
+                        updateDropdownText("all")
                         onClickSelect("all")
                     }}
                 >

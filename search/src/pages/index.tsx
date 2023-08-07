@@ -54,6 +54,15 @@ const TestProductShowNextPage: NextPage<{}> = ({}) => {
     const router = useRouter()
     const { query } = router
     const store = useSearchStore((state) => state)
+    const updateFilters = useSearchStore((state) => state.actions.updateFilters)
+    const updateQuery = useSearchStore((state) => state.actions.updateQuery)
+    const updateKeyword = useSearchStore((state) => state.actions.updateKeyword)
+    const updateCategory = useSearchStore(
+        (state) => state.actions.updateCategory
+    )
+    const updateLoadingTemp = useSearchStore(
+        (state) => state.actions.updateLoadingTemp
+    )
 
     useEffect(() => {
         setIsMounted(true)
@@ -65,17 +74,17 @@ const TestProductShowNextPage: NextPage<{}> = ({}) => {
         // Api 전송용 query
         const sendQuery: defaultParams = generateQuery(query)
         console.log("::: api 전송용 query : ", sendQuery)
-        store.updateLoadingTemp("loading")
+        updateLoadingTemp("loading")
         new Promise((res) => {
-            store.updateQuery(newQuery)
-            store.updateFilters(testFilterFactory(7))
+            updateQuery(newQuery)
+            updateFilters(testFilterFactory(7))
             setTimeout(() => {
                 // @ts-ignore
                 res()
             }, 1000)
         }).then(() => {
-            newQuery.q && store.updateKeyword(newQuery.q)
-            store.updateLoadingTemp("")
+            newQuery.q && updateKeyword(newQuery.q)
+            updateLoadingTemp("")
         })
     }, [query])
 
@@ -99,7 +108,7 @@ const TestProductShowNextPage: NextPage<{}> = ({}) => {
 
     // 검색 입력창 change
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        store.updateKeyword(e.target.value)
+        updateKeyword(e.target.value)
     }
 
     // 검색 버튼 클릭
@@ -125,7 +134,7 @@ const TestProductShowNextPage: NextPage<{}> = ({}) => {
 
     // 수업자료/교과서/참고서 지정만 (검색용)
     const setCategory = (category: CategoryType) => {
-        store.updateCategory(category)
+        updateCategory(category)
     }
 
     // 필터 체크박스 선택
